@@ -35,7 +35,7 @@ import jakarta.enterprise.context.RequestScoped;
 public class ReqBean {
     private static final long MAX_WAIT_SECONDS = TimeUnit.MINUTES.toSeconds(2);
 
-    @Asynchronous(executor = "java:app/concurrent/ScheduledExecutorA")
+    @Asynchronous(executor = "concurrent/ScheduledExecutorA")
     public CompletableFuture<String> awaitAndGetThirdPartyContext(Semaphore invocationsStarted,
                                                                   CountDownLatch blocker) {
         invocationsStarted.release(1);

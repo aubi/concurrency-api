@@ -35,7 +35,7 @@ import jakarta.enterprise.concurrent.spi.ThreadContextProvider;
 
 public class ContextPropagationTests extends TestClient {
 
-	public static final String LimitedBeanAppJNDI = "java:app/ContextPropagationTests_ejb/LimitedBean";
+	public static final String LimitedBeanAppJNDI = "ContextPropagationTests_ejb/LimitedBean";
 
 	
 	@Deployment(name="ContextPropagationTests", testable=false)

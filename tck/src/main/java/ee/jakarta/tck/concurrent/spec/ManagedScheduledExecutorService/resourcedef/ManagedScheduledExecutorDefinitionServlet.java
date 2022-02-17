@@ -60,8 +60,8 @@ import jakarta.transaction.UserTransaction;
 /**
  * @ContextServiceDefinitions are defined under {@link ContextServiceDefinitionServlet}
  */
-@ManagedScheduledExecutorDefinition(name = "java:app/concurrent/ScheduledExecutorA",
-                           context = "java:app/concurrent/ContextA",
+@ManagedScheduledExecutorDefinition(name = "concurrent/ScheduledExecutorA",
+                           context = "concurrent/ContextA",
                            maxAsync = 3,
                            hungTaskThreshold = 360000)
 @ManagedScheduledExecutorDefinition(name = "java:module/concurrent/ScheduledExecutorB",
@@ -86,7 +86,7 @@ public class ManagedScheduledExecutorDefinitionServlet extends TestServlet {
      * ManagedScheduledExecutorDefinition config.
      */
     public void testAsyncCompletionStageMSE() throws Throwable {
-        ManagedScheduledExecutorService executor = InitialContext.doLookup("java:app/concurrent/ScheduledExecutorA");
+        ManagedScheduledExecutorService executor = InitialContext.doLookup("concurrent/ScheduledExecutorA");
 
         try {
             IntContext.set(100);
@@ -95,7 +95,7 @@ public class ManagedScheduledExecutorDefinitionServlet extends TestServlet {
             CompletableFuture<String> future = executor.supplyAsync(() -> {
                 try {
                     ManagedScheduledExecutorService mes =
-                                    InitialContext.doLookup("java:app/concurrent/ScheduledExecutorA");
+                                    InitialContext.doLookup("concurrent/ScheduledExecutorA");
                     return "Application context " + (mes == null ? "incorrect" : "propagated");
                 } catch (NamingException x) {
                     throw new CompletionException(x);
@@ -272,7 +272,7 @@ public class ManagedScheduledExecutorDefinitionServlet extends TestServlet {
      * from which they were created, per ManagedScheduledExecutorDefinition config.
      */
     public void testIncompleteFutureMSE() throws Throwable {
-        ManagedScheduledExecutorService executor = InitialContext.doLookup("java:app/concurrent/ScheduledExecutorA");
+        ManagedScheduledExecutorService executor = InitialContext.doLookup("concurrent/ScheduledExecutorA");
 
         StringBuilder results = new StringBuilder();
         try {
@@ -324,7 +324,7 @@ public class ManagedScheduledExecutorDefinitionServlet extends TestServlet {
      * A ManagedScheduledExecutorDefinition with all attributes configured enforces maxAsync and propagates context.
      */
     public void testManagedScheduledExecutorDefinitionAllAttributes() throws Throwable {
-        ManagedScheduledExecutorService executor = InitialContext.doLookup("java:app/concurrent/ScheduledExecutorA");
+        ManagedScheduledExecutorService executor = InitialContext.doLookup("concurrent/ScheduledExecutorA");
 
         BlockingQueue<Integer> results = new LinkedBlockingQueue<Integer>();
         CountDownLatch blocker = new CountDownLatch(1);

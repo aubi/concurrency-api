@@ -78,7 +78,7 @@ public class ManagedThreadFactoryDefinitionOnEJBServlet extends TestServlet {
             IntContext.set(161);
             StringContext.set("testManagedThreadFactoryDefinitionAllAttributesEJB-1");
 
-            ManagedThreadFactory threadFactory = InitialContext.doLookup("java:app/concurrent/EJBThreadFactoryA");
+            ManagedThreadFactory threadFactory = InitialContext.doLookup("concurrent/EJBThreadFactoryA");
 
             IntContext.set(162);
             StringContext.set("testManagedThreadFactoryDefinitionAllAttributesEJB-2");
@@ -95,7 +95,7 @@ public class ManagedThreadFactoryDefinitionOnEJBServlet extends TestServlet {
                 results.add(StringContext.get());
                 results.add(IntContext.get());
                 try {
-                    results.add(InitialContext.doLookup("java:app/concurrent/ContextA"));
+                    results.add(InitialContext.doLookup("concurrent/ContextA"));
                 } catch (Throwable x) {
                     results.add(x);
                 }
@@ -201,7 +201,7 @@ public class ManagedThreadFactoryDefinitionOnEJBServlet extends TestServlet {
             IntContext.set(1000);
             StringContext.set("testParallelStreamBackedByManagedThreadFactoryEJB-1");
             
-            ManagedThreadFactory threadFactory = InitialContext.doLookup("java:app/concurrent/EJBThreadFactoryA");
+            ManagedThreadFactory threadFactory = InitialContext.doLookup("concurrent/EJBThreadFactoryA");
 
             IntContext.set(2000);
             StringContext.set("testParallelStreamBackedByManagedThreadFactoryEJB-2");
@@ -219,7 +219,7 @@ public class ManagedThreadFactoryDefinitionOnEJBServlet extends TestServlet {
                                                  "Third-party context type StringContext must be cleared on " +
                                                  "ForkJoin thread.");
                                     try {
-                                        assertNotNull(InitialContext.doLookup("java:app/concurrent/ContextA"),
+                                        assertNotNull(InitialContext.doLookup("concurrent/ContextA"),
                                                       "Application context must be propagated to ForkJoin thread");
                                     } catch (NamingException x) {
                                         throw new CompletionException(x);

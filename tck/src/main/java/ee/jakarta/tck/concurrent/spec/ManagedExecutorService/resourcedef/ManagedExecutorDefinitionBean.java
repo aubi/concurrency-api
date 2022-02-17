@@ -27,8 +27,8 @@ import javax.naming.NamingException;
 /**
  * ContextServiceDefinitions are defined under {@link ContextServiceDefinitionBean}
  */
-@ManagedExecutorDefinition(name = "java:app/concurrent/EJBExecutorA",
-                           context = "java:app/concurrent/EJBContextA",
+@ManagedExecutorDefinition(name = "concurrent/EJBExecutorA",
+                           context = "concurrent/EJBContextA",
                            maxAsync = 2,
                            hungTaskThreshold = 300000)
 // Reuse the same names as defined in the web module.

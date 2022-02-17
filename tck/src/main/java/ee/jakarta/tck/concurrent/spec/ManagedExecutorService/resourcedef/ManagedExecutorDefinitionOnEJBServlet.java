@@ -60,7 +60,7 @@ public class ManagedExecutorDefinitionOnEJBServlet extends TestServlet {
 	 * from which they were created, per ManagedExecutorDefinition config.
 	 */
 	public void testIncompleteFutureEJB() throws Throwable {
-		ManagedExecutorService executor = InitialContext.doLookup("java:app/concurrent/EJBExecutorA");
+		ManagedExecutorService executor = InitialContext.doLookup("concurrent/EJBExecutorA");
 
 		try {
 			IntContext.set(181);
@@ -84,7 +84,7 @@ public class ManagedExecutorDefinitionOnEJBServlet extends TestServlet {
 
 			CompletableFuture<String> stage3 = stage2a.thenCombineAsync(stage2b, (status1, status2) -> {
 				try {
-					ManagedExecutorService mes = InitialContext.doLookup("java:app/concurrent/EJBExecutorA");
+					ManagedExecutorService mes = InitialContext.doLookup("concurrent/EJBExecutorA");
 					return status1 + status2 + "Application context " + (mes == null ? "incorrect" : "propagated");
 				} catch (NamingException x) {
 					throw new CompletionException(x);

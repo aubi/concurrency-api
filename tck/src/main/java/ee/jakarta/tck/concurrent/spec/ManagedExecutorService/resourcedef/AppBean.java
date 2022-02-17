@@ -55,7 +55,7 @@ public class AppBean {
         }
     }
 
-    @Asynchronous(executor = "java:app/concurrent/ExecutorA")
+    @Asynchronous(executor = "concurrent/ExecutorA")
     public CompletableFuture<Integer> waitAndGetIntContext(Semaphore started, CountDownLatch blocker) {
         started.release(1);
         CompletableFuture<Integer> future = Asynchronous.Result.getFuture();

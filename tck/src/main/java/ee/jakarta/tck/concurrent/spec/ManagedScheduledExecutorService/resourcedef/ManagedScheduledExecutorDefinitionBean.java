@@ -27,8 +27,8 @@ import javax.naming.NamingException;
 /**
  * @ContextServiceDefinitions are defined under {@link ContextServiceDefinitionServlet} and {@link ContextServiceDefinitionBean}
  */
-@ManagedScheduledExecutorDefinition(name = "java:app/concurrent/EJBScheduledExecutorA",
-                           context = "java:app/concurrent/ContextA",
+@ManagedScheduledExecutorDefinition(name = "concurrent/EJBScheduledExecutorA",
+                           context = "concurrent/ContextA",
                            maxAsync = 3,
                            hungTaskThreshold = 360000)
 @ManagedScheduledExecutorDefinition(name = "java:module/concurrent/ScheduledExecutorB",

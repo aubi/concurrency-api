@@ -78,7 +78,7 @@ public class ContextServiceDefinitionFromEJBServlet extends TestServlet {
      * clears StringContext, and leaves Transaction context unchanged.
      */
     public void testContextServiceDefinitionFromEJBAllAttributes() throws Throwable {
-        ContextService contextServiceA = InitialContext.doLookup("java:app/concurrent/EJBContextA");
+        ContextService contextServiceA = InitialContext.doLookup("concurrent/EJBContextA");
 
         BiFunction<Object[], String, Object[]> fn = (results, jndiName) -> {
             try {
@@ -104,7 +104,7 @@ public class ContextServiceDefinitionFromEJBServlet extends TestServlet {
             BiFunction<Object[], String, Object[]> contextualFunction = contextServiceA.contextualFunction(fn);
 
             future = CompletableFuture.completedFuture(new Object[4]).thenCombineAsync(
-                    CompletableFuture.completedFuture("java:app/concurrent/EJBContextA"),
+                    CompletableFuture.completedFuture("concurrent/EJBContextA"),
                     contextualFunction,
                     unmanagedThreads);
 
@@ -114,25 +114,25 @@ public class ContextServiceDefinitionFromEJBServlet extends TestServlet {
             tx.begin();
 
             // run inline
-            Object[] results = contextualFunction.apply(new Object[4], "java:app/concurrent/EJBContextA");
+            Object[] results = contextualFunction.apply(new Object[4], "concurrent/EJBContextA");
             if (results[0] instanceof Throwable)
                 throw new AssertionError("Application context must be propagated to inline contextual BiFunction " +
-                    "to perform lookup of java:app/concurrent/EJBContextA").initCause((Throwable) results[0]);
+                    "to perform lookup of concurrent/EJBContextA").initCause((Throwable) results[0]);
             assertTrue(results[0] instanceof ContextService,
                     "Application context must be propagated to inline contextual BiFunction " +
-                    "per java:app/concurrent/EJBContextA configuration.");
+                    "per concurrent/EJBContextA configuration.");
             assertEquals(results[1], Integer.valueOf(101), 
                     "Third-party context type IntContext must be propagated to inline contextual BiFunction " +
-                    "per java:app/concurrent/EJBContextA configuration.");
+                    "per concurrent/EJBContextA configuration.");
             assertEquals(results[2], "", 
                     "Third-party context type StringContext must be cleared from inline contextual BiFunction " +
-                    "per java:app/concurrent/EJBContextA configuration.");
+                    "per concurrent/EJBContextA configuration.");
             assertEquals(results[3], Integer.valueOf(Status.STATUS_ACTIVE), 
                     "Transaction context must be left unchanged on inline contextual BiFunction " +
-                    "per java:app/concurrent/EJBContextA configuration.");
+                    "per concurrent/EJBContextA configuration.");
 
             // context from before the inline contextual BiFunction must be restored to thread
-            assertNotNull(InitialContext.doLookup("java:app/concurrent/EJBContextA"),
+            assertNotNull(InitialContext.doLookup("concurrent/EJBContextA"),
                     "Previous Application context must be present after inline contextual BiFunction.");
             assertEquals(IntContext.get(), 102, 
                     "Third-party context type IntContext must be restored after inline contextual BiFunction.");
@@ -140,7 +140,7 @@ public class ContextServiceDefinitionFromEJBServlet extends TestServlet {
                     "Third-party context type StringContext must be restored after inline contextual BiFunction.");
             assertEquals(tx.getStatus(), Status.STATUS_ACTIVE, 
                     "Transaction context must remain on thread after inline contextual BiFunction " +
-                    "because it is to be left unchanged per java:app/concurrent/EJBContextA configuration.");
+                    "because it is to be left unchanged per concurrent/EJBContextA configuration.");
         } finally {
             StringContext.set("");
             IntContext.set(0);
@@ -152,19 +152,19 @@ public class ContextServiceDefinitionFromEJBServlet extends TestServlet {
 
         if (results[0] instanceof Throwable)
             throw new AssertionError("Application context must be propagated to async contextual BiFunction " +
-                "to perform lookup of java:app/concurrent/EJBContextA").initCause((Throwable) results[0]);
+                "to perform lookup of concurrent/EJBContextA").initCause((Throwable) results[0]);
         assertTrue(results[0] instanceof ContextService,
                 "Application context must be propagated to async contextual BiFunction " +
-                "per java:app/concurrent/EJBContextA configuration.");
+                "per concurrent/EJBContextA configuration.");
         assertEquals(results[1], Integer.valueOf(101), 
                 "Third-party context type IntContext must be propagated to async contextual BiFunction " +
-                "per java:app/concurrent/EJBContextA configuration.");
+                "per concurrent/EJBContextA configuration.");
         assertEquals(results[2], "", 
                 "Third-party context type StringContext must be cleared from async contextual BiFunction " +
-                "per java:app/concurrent/EJBContextA configuration.");
+                "per concurrent/EJBContextA configuration.");
         assertEquals(results[3], Integer.valueOf(Status.STATUS_NO_TRANSACTION), 
                 "Transaction context must be left unchanged on async contextual BiFunction " +
-                "per java:app/concurrent/EJBContextA configuration.");
+                "per concurrent/EJBContextA configuration.");
     }
 
     /**

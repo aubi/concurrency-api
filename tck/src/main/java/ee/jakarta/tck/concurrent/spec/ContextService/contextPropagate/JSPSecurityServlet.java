@@ -14,7 +14,7 @@ import jakarta.servlet.annotation.WebServlet;
 						   unchanged = SECURITY)
 @ManagedExecutorDefinition(name = "java:app/concurrent/executor1")
 @ManagedExecutorDefinition(name = "java:app/concurrent/executor2",
-						   context = "java:app/concurrent/securityUnchangedContextSvc")
+						   context = "concurrent/securityUnchangedContextSvc")
 @WebServlet("/JSPSecurityServlet")
 public class JSPSecurityServlet extends TestServlet{
 

@@ -28,7 +28,7 @@ import ee.jakarta.tck.concurrent.spec.ContextService.contextPropagate.ContextSer
  * @ContextServiceDefinitions are defined under {@link ContextServiceDefinitionServlet}
  */
 @ManagedThreadFactoryDefinition(name = "java:app/concurrent/EJBThreadFactoryA",
-                                context = "java:app/concurrent/EJBContextA",
+                                context = "concurrent/EJBContextA",
                                 priority = 4)
 @ManagedThreadFactoryDefinition(name = "java:comp/concurrent/EJBThreadFactoryB")
 @Local(ManagedThreadFactoryDefinitionInterface.class)

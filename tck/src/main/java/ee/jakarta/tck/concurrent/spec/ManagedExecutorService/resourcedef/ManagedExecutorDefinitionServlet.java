@@ -49,8 +49,8 @@ import jakarta.transaction.UserTransaction;
 /**
  * @ContextServiceDefinitions are defined under {@link ContextServiceDefinitionServlet}
  */
-@ManagedExecutorDefinition(name = "java:app/concurrent/ExecutorA",
-                           context = "java:app/concurrent/ContextA",
+@ManagedExecutorDefinition(name = "concurrent/ExecutorA",
+                           context = "concurrent/ContextA",
                            maxAsync = 2,
                            hungTaskThreshold = 300000)
 @ManagedExecutorDefinition(name = "java:module/concurrent/ExecutorB",
@@ -76,7 +76,7 @@ public class ManagedExecutorDefinitionServlet extends TestServlet {
      */
     public void testAsyncCompletionStage() throws Throwable {
     	
-        ManagedExecutorService executor = InitialContext.doLookup("java:app/concurrent/ExecutorA");
+        ManagedExecutorService executor = InitialContext.doLookup("concurrent/ExecutorA");
 
         try {
             IntContext.set(10);
@@ -84,7 +84,7 @@ public class ManagedExecutorDefinitionServlet extends TestServlet {
 
             CompletableFuture<String> future = executor.supplyAsync(() -> {
                 try {
-                    ManagedExecutorService mes = InitialContext.doLookup("java:app/concurrent/ExecutorA");
+                    ManagedExecutorService mes = InitialContext.doLookup("concurrent/ExecutorA");
                     return "Application context " + (mes == null ? "incorrect" : "propagated");
                 } catch (NamingException x) {
                     throw new CompletionException(x);
@@ -339,7 +339,7 @@ public class ManagedExecutorDefinitionServlet extends TestServlet {
      * from which they were created, per ManagedExecutorDefinition config.
      */
     public void testIncompleteFuture() throws Throwable {
-        ManagedExecutorService executor = InitialContext.doLookup("java:app/concurrent/ExecutorA");
+        ManagedExecutorService executor = InitialContext.doLookup("concurrent/ExecutorA");
 
         try {
             IntContext.set(181);
@@ -363,7 +363,7 @@ public class ManagedExecutorDefinitionServlet extends TestServlet {
 
             CompletableFuture<String> stage3 = stage2a.thenCombineAsync(stage2b, (status1, status2) -> {
                 try {
-                    ManagedExecutorService mes = InitialContext.doLookup("java:app/concurrent/ExecutorA");
+                    ManagedExecutorService mes = InitialContext.doLookup("concurrent/ExecutorA");
                     return status1 + status2 + "Application context " + (mes == null ? "incorrect" : "propagated");
                 } catch (NamingException x) {
                     throw new CompletionException(x);
@@ -386,7 +386,7 @@ public class ManagedExecutorDefinitionServlet extends TestServlet {
      * A ManagedExecutorDefinition with all attributes configured enforces maxAsync and propagates context.
      */
     public void testManagedExecutorDefinitionAllAttributes() throws Throwable {
-        ManagedExecutorService executor = InitialContext.doLookup("java:app/concurrent/ExecutorA");
+        ManagedExecutorService executor = InitialContext.doLookup("concurrent/ExecutorA");
 
         BlockingQueue<Integer> results = new LinkedBlockingQueue<Integer>();
         CountDownLatch blocker = new CountDownLatch(1);
