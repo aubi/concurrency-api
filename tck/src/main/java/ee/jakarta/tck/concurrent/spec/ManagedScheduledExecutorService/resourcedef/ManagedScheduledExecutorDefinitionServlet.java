@@ -202,7 +202,7 @@ public class ManagedScheduledExecutorDefinitionServlet extends TestServlet {
      */
     public void testCompletedFutureMSE() throws Throwable {
         ManagedScheduledExecutorService executor =
-                        InitialContext.doLookup("java:module/concurrent/ScheduledExecutorB");
+ InitialContext.doLookup("concurrent/ScheduledExecutorB");
 
         IntContext.set(41);
         StringContext.set("testCompletedFutureMSE-1");
@@ -373,7 +373,7 @@ public class ManagedScheduledExecutorDefinitionServlet extends TestServlet {
      * and uses java:comp/DefaultContextService to determine context propagation and clearing.
      */
     public void testManagedScheduledExecutorDefinitionDefaults() throws Throwable {
-        ManagedScheduledExecutorService executor = InitialContext.doLookup("java:comp/concurrent/ScheduledExecutorC");
+        ManagedScheduledExecutorService executor = InitialContext.doLookup("concurrent/ScheduledExecutorC");
 
         CountDownLatch blocker = new CountDownLatch(1);
         CountDownLatch allTasksRunning = new CountDownLatch(4);
@@ -409,8 +409,7 @@ public class ManagedScheduledExecutorDefinitionServlet extends TestServlet {
             CompletableFuture<?> lookupFuture1 = executor.completedFuture("java:comp/concurrent/ScheduledExecutorC")
                             .thenApplyAsync(lookupFunction);
 
-            CompletableFuture<?> lookupFuture2 = executor.completedFuture("java:module/concurrent/ScheduledExecutorB")
-                            .thenApplyAsync(lookupFunction);
+            CompletableFuture<?> lookupFuture2 = executor.completedFuture("concurrent/ScheduledExecutorB").thenApplyAsync(lookupFunction);
 
             assertTrue(allTasksRunning.await(MAX_WAIT_SECONDS, TimeUnit.SECONDS),
                        "ManagedScheduledExecutorService without maxAsync must be able to run async tasks concurrently.");
@@ -474,7 +473,7 @@ public class ManagedScheduledExecutorDefinitionServlet extends TestServlet {
      * ManagedScheduledExecutorService can schedule a task with a CronTrigger
      */
     public void testScheduleWithCronTrigger() throws Throwable {
-        ManagedScheduledExecutorService executor = InitialContext.doLookup("java:comp/concurrent/ScheduledExecutorC");
+        ManagedScheduledExecutorService executor = InitialContext.doLookup("concurrent/ScheduledExecutorC");
 
         ZoneId US_CENTRAL = ZoneId.of("America/Chicago");
         ZoneId US_MOUNTAIN = ZoneId.of("America/Denver");
@@ -483,7 +482,7 @@ public class ManagedScheduledExecutorDefinitionServlet extends TestServlet {
         BlockingQueue<Object> results = new LinkedBlockingQueue<Object>();
 
         ScheduledFuture<?> future = executor.schedule(() -> {
-            return results.add(InitialContext.doLookup("java:comp/concurrent/ScheduledExecutorC"));
+            return results.add(InitialContext.doLookup("concurrent/ScheduledExecutorC"));
         }, everyOtherSecond);
         try {
             CronTrigger weekendsAtNoon6MonthsFromNow = new CronTrigger(US_MOUNTAIN)
@@ -491,7 +490,7 @@ public class ManagedScheduledExecutorDefinitionServlet extends TestServlet {
                             .hours(12)
                             .months(ZonedDateTime.now(US_MOUNTAIN).plusMonths(6).getMonth());
             ScheduledFuture<?> distantFuture = executor.schedule(() -> {
-                return results.add(InitialContext.doLookup("java:comp/concurrent/ScheduledExecutorC"));
+                return results.add(InitialContext.doLookup("concurrent/ScheduledExecutorC"));
             }, weekendsAtNoon6MonthsFromNow);
 
             // Exact number of days until execution will vary, but should be around 5 to 6 months worth of days,
@@ -540,7 +539,7 @@ public class ManagedScheduledExecutorDefinitionServlet extends TestServlet {
      * that uses the LastExecution methods with ZonedDateTime parameters.
      */
     public void testScheduleWithZonedTrigger() throws Exception {
-        ManagedScheduledExecutorService executor = InitialContext.doLookup("java:comp/concurrent/ScheduledExecutorC");
+        ManagedScheduledExecutorService executor = InitialContext.doLookup("concurrent/ScheduledExecutorC");
 
         ZoneId US_CENTRAL = ZoneId.of("America/Chicago");
 
@@ -579,7 +578,7 @@ public class ManagedScheduledExecutorDefinitionServlet extends TestServlet {
         BlockingQueue<Object> results = new LinkedBlockingQueue<Object>();
 
         ScheduledFuture<?> future = executor.schedule(() -> {
-            return results.add(InitialContext.doLookup("java:comp/concurrent/ScheduledExecutorC"));
+            return results.add(InitialContext.doLookup("concurrent/ScheduledExecutorC"));
         }, monthlyOnThe15th);
         try {
             Object result;

@@ -114,7 +114,7 @@ public class ManagedScheduledExecutorDefinitionOnEJBServlet extends TestServlet 
      * and uses java:comp/DefaultContextService to determine context propagation and clearing.
      */
     public void testManagedScheduledExecutorDefinitionDefaults_EJB() throws Throwable {
-    	ManagedScheduledExecutorService executor = (ManagedScheduledExecutorService)managedScheduleExecutorDefinitionBean.doLookup("java:comp/concurrent/EJBScheduledExecutorC");
+        ManagedScheduledExecutorService executor = (ManagedScheduledExecutorService) managedScheduleExecutorDefinitionBean.doLookup("concurrent/EJBScheduledExecutorC");
 
     	CountDownLatch blocker = new CountDownLatch(1);
     	CountDownLatch allTasksRunning = new CountDownLatch(4);
@@ -147,11 +147,11 @@ public class ManagedScheduledExecutorDefinitionOnEJBServlet extends TestServlet 
 
     		Future<Integer> txFuture2 = executor.submit(txCallable);
 
-    		CompletableFuture<?> lookupFuture1 = executor.completedFuture("java:comp/concurrent/EJBScheduledExecutorC")
-    				.thenApplyAsync(lookupFunction);
+            CompletableFuture<?> lookupFuture1 = executor.completedFuture("concurrent/EJBScheduledExecutorC")
+                				.thenApplyAsync(lookupFunction);
 
-    		CompletableFuture<?> lookupFuture2 = executor.completedFuture("java:module/concurrent/ScheduledExecutorB")
-    				.thenApplyAsync(lookupFunction);
+            CompletableFuture<?> lookupFuture2 = executor.completedFuture("concurrent/ScheduledExecutorB")
+                				.thenApplyAsync(lookupFunction);
 
     		assertTrue(allTasksRunning.await(MAX_WAIT_SECONDS, TimeUnit.SECONDS),
     				"ManagedScheduledExecutorService without maxAsync must be able to run async tasks concurrently.");

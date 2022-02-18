@@ -188,7 +188,7 @@ public class ContextServiceDefinitionServlet extends TestServlet {
      * clears transaction context and propagates other types.
      */
     public void testContextServiceDefinitionDefaults() throws Throwable {
-        ContextService contextService = InitialContext.doLookup("java:comp/concurrent/ContextC");
+        ContextService contextService = InitialContext.doLookup("concurrent/ContextC");
 
         LinkedBlockingQueue<Object> results = new LinkedBlockingQueue<Object>();
         try {
@@ -196,7 +196,7 @@ public class ContextServiceDefinitionServlet extends TestServlet {
             new Thread(contextService.contextualRunnable(() -> {
                 results.add(IntContext.get());
                 try {
-                    results.add(InitialContext.doLookup("java:comp/concurrent/ContextC"));
+                    results.add(InitialContext.doLookup("concurrent/ContextC"));
                 } catch (Throwable x) {
                     results.add(x);
                 }
@@ -267,7 +267,7 @@ public class ContextServiceDefinitionServlet extends TestServlet {
             CompletableFuture<Queue<Object>> qFutureA = CompletableFuture.completedFuture(queueA);
             qFutureA.thenAcceptBothAsync(qFutureA, consumerA, unmanagedThreads);
 
-            ContextService contextServiceB = InitialContext.doLookup("java:module/concurrent/ContextB");
+            ContextService contextServiceB = InitialContext.doLookup("concurrent/ContextB");
             BiConsumer<Queue<Object>, Queue<Object>> consumerB =
                             contextServiceB.contextualConsumer((intQ, strQ) -> {
                                 intQ.add(IntContext.get());
@@ -373,7 +373,7 @@ public class ContextServiceDefinitionServlet extends TestServlet {
      * the thread that contextualizes the Function, per the configuration of the ContextServiceDefinition.
      */
     public void testContextualFunction() throws Throwable {
-        ContextService contextService = InitialContext.doLookup("java:module/concurrent/ContextB");
+        ContextService contextService = InitialContext.doLookup("concurrent/ContextB");
         CompletableFuture<Object[]> future;
         tx.begin();
         try {

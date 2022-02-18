@@ -238,12 +238,12 @@ public class ManagedExecutorDefinitionServlet extends TestServlet {
      * from which they were created, per ManagedExecutorDefinition config.
      */
     public void testCompletedFuture() throws Throwable {
-        ManagedExecutorService executor = InitialContext.doLookup("java:module/concurrent/ExecutorB");
+        ManagedExecutorService executor = InitialContext.doLookup("concurrent/ExecutorB");
 
         IntContext.set(81);
         StringContext.set("testCompletedFuture-1");
         try {
-            CompletableFuture<String> stage1 = executor.completedFuture("java:module/concurrent/ExecutorB");
+            CompletableFuture<String> stage1 = executor.completedFuture("concurrent/ExecutorB");
 
             StringContext.set("testCompletedFuture-2");
 
@@ -290,7 +290,7 @@ public class ManagedExecutorDefinitionServlet extends TestServlet {
      * ManagedExecutorService can create a contextualized copy of an unmanaged CompletableFuture.
      */
     public void testCopyCompletableFuture() throws Throwable {
-        ManagedExecutorService executor = InitialContext.doLookup("java:module/concurrent/ExecutorB");
+        ManagedExecutorService executor = InitialContext.doLookup("concurrent/ExecutorB");
 
         IntContext.set(271);
         StringContext.set("testCopyCompletableFuture-1");
@@ -429,7 +429,7 @@ public class ManagedExecutorDefinitionServlet extends TestServlet {
      * and uses java:comp/DefaultContextService to determine context propagation and clearing.
      */
     public void testManagedExecutorDefinitionDefaults() throws Throwable {
-        ManagedExecutorService executor = InitialContext.doLookup("java:comp/concurrent/ExecutorC");
+        ManagedExecutorService executor = InitialContext.doLookup("concurrent/ExecutorC");
 
         CountDownLatch blocker = new CountDownLatch(1);
         CountDownLatch allTasksRunning = new CountDownLatch(3);
@@ -460,11 +460,9 @@ public class ManagedExecutorDefinitionServlet extends TestServlet {
         try {
             Future<Integer> txFuture = executor.submit(txCallable);
 
-            CompletableFuture<?> lookupFuture1 = executor.completedFuture("java:comp/concurrent/ExecutorC")
-                            .thenApplyAsync(lookupFunction);
+            CompletableFuture<?> lookupFuture1 = executor.completedFuture("concurrent/ExecutorC").thenApplyAsync(lookupFunction);
 
-            CompletableFuture<?> lookupFuture2 = executor.completedFuture("java:module/concurrent/ExecutorB")
-                            .thenApplyAsync(lookupFunction);
+            CompletableFuture<?> lookupFuture2 = executor.completedFuture("concurrent/ExecutorB").thenApplyAsync(lookupFunction);
 
             assertTrue(allTasksRunning.await(MAX_WAIT_SECONDS, TimeUnit.SECONDS),
                        "ManagedExecutorService without maxAsync must be able to run async tasks concurrently.");

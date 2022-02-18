@@ -107,7 +107,7 @@ public class ManagedExecutorDefinitionOnEJBServlet extends TestServlet {
 	 * ManagedExecutorService can create a contextualized copy of an unmanaged CompletableFuture.
 	 */
 	public void testCopyCompletableFutureEJB() throws Throwable {
-		ManagedExecutorService executor = (ManagedExecutorService) managedExecutorDefinitionBean.doLookup("java:module/concurrent/ExecutorB");
+            ManagedExecutorService executor = (ManagedExecutorService) managedExecutorDefinitionBean.doLookup("concurrent/ExecutorB");
 
 		IntContext.set(271);
 		StringContext.set("testCopyCompletableFutureEJB-1");

@@ -49,10 +49,10 @@ public class ReqBean {
         return future;
     }
 
-    @Asynchronous(executor = "java:comp/concurrent/ScheduledExecutorC")
+    @Asynchronous(executor = "concurrent/ScheduledExecutorC")
     public CompletionStage<ContextService> lookUpAContextService() {
         try {
-            return CompletableFuture.completedFuture(InitialContext.doLookup("java:comp/concurrent/ContextC"));
+            return CompletableFuture.completedFuture(InitialContext.doLookup("concurrent/ContextC"));
         } catch (NamingException x) {
             throw new CompletionException(x);
         }

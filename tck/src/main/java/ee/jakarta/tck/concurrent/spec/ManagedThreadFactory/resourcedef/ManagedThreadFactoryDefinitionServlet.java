@@ -120,7 +120,7 @@ public class ManagedThreadFactoryDefinitionServlet extends TestServlet {
      * and uses java:comp/DefaultContextService to determine context propagation and clearing.
      */
     public void testManagedThreadFactoryDefinitionDefaults() throws Throwable {
-        ManagedThreadFactory threadFactory = InitialContext.doLookup("java:comp/concurrent/ThreadFactoryB");
+        ManagedThreadFactory threadFactory = InitialContext.doLookup("concurrent/ThreadFactoryB");
 
         CountDownLatch blocker = new CountDownLatch(1);
         CountDownLatch allThreadsRunning = new CountDownLatch(2);
@@ -131,7 +131,7 @@ public class ManagedThreadFactoryDefinitionServlet extends TestServlet {
             try {
                 allThreadsRunning.countDown();
                 blocker.await(MAX_WAIT_SECONDS * 5, TimeUnit.SECONDS);
-                lookupTaskResult.complete(InitialContext.doLookup("java:comp/concurrent/ContextC"));
+                lookupTaskResult.complete(InitialContext.doLookup("concurrent/ContextC"));
             } catch (Throwable x) {
                 txTaskResult.completeExceptionally(x);
             }

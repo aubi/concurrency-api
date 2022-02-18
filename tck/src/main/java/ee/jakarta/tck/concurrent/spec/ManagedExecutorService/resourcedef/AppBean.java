@@ -34,7 +34,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 public class AppBean {
     private static final long MAX_WAIT_SECONDS = TimeUnit.MINUTES.toSeconds(2);
 
-    @Asynchronous(executor = "java:module/concurrent/ExecutorB")
+    @Asynchronous(executor = "concurrent/ExecutorB")
     public CompletionStage<String> addStringContextAndWait(BlockingQueue<String> queue, CountDownLatch blocker) {
         String s = StringContext.get();
         try {

@@ -37,7 +37,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 @SuppressWarnings({"serial", "unused"})
-@WebServlet(Constants.CONTEXT_PATH)
+@WebServlet("/" + Constants.CONTEXT_PATH)
 @DataSourceDefinition(
 	name = Constants.DS_JNDI_NAME, 
 	className = "org.apache.derby.jdbc.EmbeddedDataSource", 

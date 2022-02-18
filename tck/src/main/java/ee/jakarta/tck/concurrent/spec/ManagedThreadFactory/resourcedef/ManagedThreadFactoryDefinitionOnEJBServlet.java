@@ -64,7 +64,7 @@ public class ManagedThreadFactoryDefinitionOnEJBServlet extends TestServlet {
 	@Override
 	public void init() throws ServletException {
 		try {
-			managedThreadFactoryDefinitionBean.doLookup("java:module/concurrent/ContextB");
+                    managedThreadFactoryDefinitionBean.doLookup("concurrent/ContextB");
 		} catch (NamingException e) {
 			throw new ServletException(e);
 		}
@@ -130,7 +130,7 @@ public class ManagedThreadFactoryDefinitionOnEJBServlet extends TestServlet {
      * and uses java:comp/DefaultContextService to determine context propagation and clearing.
      */
     public void testManagedThreadFactoryDefinitionDefaultsEJB() throws Throwable {
-        ManagedThreadFactory threadFactory = (ManagedThreadFactory) managedThreadFactoryDefinitionBean.doLookup("java:comp/concurrent/EJBThreadFactoryB");
+        ManagedThreadFactory threadFactory = (ManagedThreadFactory) managedThreadFactoryDefinitionBean.doLookup("concurrent/EJBThreadFactoryB");
 
         CountDownLatch blocker = new CountDownLatch(1);
         CountDownLatch allThreadsRunning = new CountDownLatch(2);
@@ -141,7 +141,7 @@ public class ManagedThreadFactoryDefinitionOnEJBServlet extends TestServlet {
             try {
                 allThreadsRunning.countDown();
                 blocker.await(MAX_WAIT_SECONDS * 5, TimeUnit.SECONDS);
-                lookupTaskResult.complete(InitialContext.doLookup("java:comp/concurrent/EJBThreadFactoryB"));
+                lookupTaskResult.complete(InitialContext.doLookup("concurrent/EJBThreadFactoryB"));
             } catch (Throwable x) {
                 txTaskResult.completeExceptionally(x);
             }
