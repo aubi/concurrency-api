@@ -64,7 +64,7 @@ public class ManagedThreadFactoryDefinitionOnEJBServlet extends TestServlet {
 	@Override
 	public void init() throws ServletException {
 		try {
-                    managedThreadFactoryDefinitionBean.doLookup("concurrent/ContextB");
+                    managedThreadFactoryDefinitionBean.doLookup("java:module/concurrent/ContextB");
 		} catch (NamingException e) {
 			throw new ServletException(e);
 		}

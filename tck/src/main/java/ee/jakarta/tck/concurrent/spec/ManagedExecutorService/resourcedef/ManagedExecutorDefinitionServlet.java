@@ -166,13 +166,13 @@ public class ManagedExecutorDefinitionServlet extends TestServlet {
                 throw x;
         }
 
-        assertEquals(future3.get(MAX_WAIT_SECONDS, TimeUnit.SECONDS), Integer.valueOf(1215), 
-                     "Third-party context type IntContext must be propagated to asynchronous method " +
-                     "per ManagedExecutorDefinition and ContextServiceDefinition.");
+        assertEquals(future3.get(MAX_WAIT_SECONDS, TimeUnit.SECONDS), Integer.valueOf(1215),
+                "Third-party context type IntContext must be propagated to asynchronous method "
+                + "per ManagedExecutorDefinition and ContextServiceDefinition.");
 
-        assertEquals(future4.get(MAX_WAIT_SECONDS, TimeUnit.SECONDS), Integer.valueOf(1215), 
-                     "Third-party context type IntContext must be propagated to asynchronous method " +
-                     "per ManagedExecutorDefinition and ContextServiceDefinition.");
+        assertEquals(future4.get(MAX_WAIT_SECONDS, TimeUnit.SECONDS), Integer.valueOf(1215),
+                "Third-party context type IntContext must be propagated to asynchronous method "
+                + "per ManagedExecutorDefinition and ContextServiceDefinition.");
     }
 
     /**
@@ -192,31 +192,32 @@ public class ManagedExecutorDefinitionServlet extends TestServlet {
 
             StringContext.set("testAsynchronousMethodReturnsCompletionStage-2");
 
-            assertEquals(queue.poll(MAX_WAIT_SECONDS, TimeUnit.SECONDS),
-            			"testAsynchronousMethodReturnsCompletionStage-1",
-                         "One of the asynchronous method invocations should run per maxAsync=1.");
+            String poll1 = queue.poll(MAX_WAIT_SECONDS, TimeUnit.SECONDS);
+            assertEquals(poll1,
+                    "testAsynchronousMethodReturnsCompletionStage-1",
+                    "One of the asynchronous method invocations should run per maxAsync=1.");
 
-            assertEquals(queue.poll(1, TimeUnit.SECONDS), null, 
-                            "Two asynchronous method invocations should not run at same time per maxAsync=1.");
+            String poll2 = queue.poll(1, TimeUnit.SECONDS);
+            assertEquals(poll2, null, "Two asynchronous method invocations should not run at same time per maxAsync=1.");
 
             stage1.thenAcceptBoth(stage2, (result1, result2) -> {
-                if (result1.equals(result2))
+                if (result1.equals(result2)) {
                     queue.add(StringContext.get());
-                else
-                    queue.add("Both asynchronous method invocations must have same result. Instead: " +
-                              result1 + " and " + result2);
+                } else {
+                    queue.add("Both asynchronous method invocations must have same result. Instead: "
+                            + result1 + " and " + result2);
+                }
             });
         } finally {
             StringContext.set(null);
             blocker.countDown();
         }
 
-        assertEquals(queue.poll(MAX_WAIT_SECONDS, TimeUnit.SECONDS), "testAsynchronousMethodReturnsCompletionStage-1", 
-                     "The other asynchronous method invocation should run after the first is no longer running.");
-
-        assertEquals(queue.poll(MAX_WAIT_SECONDS, TimeUnit.SECONDS), "testAsynchronousMethodReturnsCompletionStage-2", 
-                     "Completion stage that is created from an asynchronous method completion stage must run " +
-                     "with the same executor and therefore propagate the same third-party context type StringContext.");
+        String poll3 = queue.poll(MAX_WAIT_SECONDS, TimeUnit.SECONDS);
+        assertEquals(poll3, "testAsynchronousMethodReturnsCompletionStage-1", "The other asynchronous method invocation should run after the first is no longer running.");
+        String poll4 = queue.poll(MAX_WAIT_SECONDS, TimeUnit.SECONDS);
+        assertEquals(poll4, "testAsynchronousMethodReturnsCompletionStage-2", "Completion stage that is created from an asynchronous method completion stage must run "
+                + "with the same executor and therefore propagate the same third-party context type StringContext.");
     }
 
     /**
@@ -429,7 +430,7 @@ public class ManagedExecutorDefinitionServlet extends TestServlet {
      * and uses java:comp/DefaultContextService to determine context propagation and clearing.
      */
     public void testManagedExecutorDefinitionDefaults() throws Throwable {
-        ManagedExecutorService executor = InitialContext.doLookup("concurrent/ExecutorC");
+        ManagedExecutorService executor = InitialContext.doLookup("java:comp/concurrent/ExecutorC");
 
         CountDownLatch blocker = new CountDownLatch(1);
         CountDownLatch allTasksRunning = new CountDownLatch(3);

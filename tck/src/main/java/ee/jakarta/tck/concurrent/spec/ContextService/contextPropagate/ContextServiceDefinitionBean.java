@@ -55,6 +55,6 @@ public class ContextServiceDefinitionBean implements ContextServiceDefinitionInt
 	 */
 	@Override
 	public ContextService getContextB() throws NamingException {
-            return InitialContext.doLookup("concurrent/ContextB");
+            return InitialContext.doLookup("java:module/concurrent/ContextB");
 	}
 }
