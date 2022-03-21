@@ -50,8 +50,7 @@ import jakarta.transaction.UserTransaction;
  * @ContextServiceDefinitions are defined under {@link ContextServiceDefinitionServlet}
  */
 @ManagedExecutorDefinition(name = "concurrent/ExecutorA",
-                           context = "concurrent/ContextA",
-                           maxAsync = 2,
+        context = "java:app/concurrent/ContextA",                           maxAsync = 2,
                            hungTaskThreshold = 300000)
 @ManagedExecutorDefinition(name = "java:module/concurrent/ExecutorB",
                            context = "java:module/concurrent/ContextB",

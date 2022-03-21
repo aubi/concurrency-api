@@ -49,8 +49,7 @@ import jakarta.transaction.UserTransaction;
  * @ContextServiceDefinitions are defined under {@link ContextServiceDefinitionServlet}
  */
 @ManagedThreadFactoryDefinition(name = "java:app/concurrent/ThreadFactoryA",
-                                context = "concurrent/ContextA",
-                                priority = 4)
+        context = "java:app/concurrent/ContextA",                                priority = 4)
 @ManagedThreadFactoryDefinition(name = "java:comp/concurrent/ThreadFactoryB")
 @WebServlet("/ManagedThreadFactoryDefinitionServlet")
 public class ManagedThreadFactoryDefinitionServlet extends TestServlet {
@@ -85,7 +84,7 @@ public class ManagedThreadFactoryDefinitionServlet extends TestServlet {
                 results.add(StringContext.get());
                 results.add(IntContext.get());
                 try {
-                    results.add(InitialContext.doLookup("concurrent/ContextA"));
+                    results.add(InitialContext.doLookup("java:app/concurrent/ContextA"));
                 } catch (Throwable x) {
                     results.add(x);
                 }
@@ -209,8 +208,7 @@ public class ManagedThreadFactoryDefinitionServlet extends TestServlet {
                                                  "Third-party context type StringContext must be cleared on " +
                                                  "ForkJoin thread.");
                                     try {
-                                        assertNotNull(InitialContext.doLookup("concurrent/ContextA"),
-                                                      "Application context must be propagated to ForkJoin thread");
+                                        assertNotNull(InitialContext.doLookup("java:app/concurrent/ContextA"),                                                      "Application context must be propagated to ForkJoin thread");
                                     } catch (NamingException x) {
                                         throw new CompletionException(x);
                                     }

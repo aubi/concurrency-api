@@ -61,8 +61,7 @@ import jakarta.transaction.UserTransaction;
  * @ContextServiceDefinitions are defined under {@link ContextServiceDefinitionServlet}
  */
 @ManagedScheduledExecutorDefinition(name = "concurrent/ScheduledExecutorA",
-                           context = "concurrent/ContextA",
-                           maxAsync = 3,
+        context = "java:app/concurrent/ContextA",                           maxAsync = 3,
                            hungTaskThreshold = 360000)
 @ManagedScheduledExecutorDefinition(name = "java:module/concurrent/ScheduledExecutorB",
                            context = "java:module/concurrent/ContextB",
