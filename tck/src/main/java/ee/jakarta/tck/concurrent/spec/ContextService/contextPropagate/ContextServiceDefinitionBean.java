@@ -49,12 +49,12 @@ public class ContextServiceDefinitionBean implements ContextServiceDefinitionInt
 	public ContextService getContextC() throws NamingException {
 		return InitialContext.doLookup("java:comp/concurrent/EJBContextC");
 	}
-	
+
 	/**
-	 * Get java:comp/concurrent/ContextB from the bean.
+	 * Get java:module/concurrent/ContextB from the bean.
 	 */
 	@Override
 	public ContextService getContextB() throws NamingException {
-		return InitialContext.doLookup("java:comp/concurrent/ContextB");
+		return InitialContext.doLookup("java:module/concurrent/ContextB");
 	}
 }
