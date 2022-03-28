@@ -52,7 +52,6 @@
         <developerConnection>scm:git:git@github.com:jakartaee/concurrency.git</developerConnection>
         <url>https://github.com/jakartaee/concurrency</url>
     </scm>
-    
     <developers>
         <developer>
             <id>anthony.lai</id>
@@ -60,21 +59,6 @@
             <organization>Oracle</organization>
         </developer>
     </developers>
-    
-    <!-- For artifacts not yet in Maven Central -->
-    <repositories> 
-		<repository>
-			<id>sonatype-nexus-staging</id>
-			<name>Sonatype Nexus Staging</name>
-			<url>https://jakarta.oss.sonatype.org/content/repositories/staging/</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</repository>
-	</repositories>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -85,17 +69,19 @@
         <testng.version>6.14.3</testng.version>
         <arquillian.version>1.6.0.Final</arquillian.version>
                 
-        <jakarta.servlet.version>6.0.0</jakarta.servlet.version>
+        <!-- TODO update to 6.0.0 -->
+        <jakarta.servlet.version>5.0.0</jakarta.servlet.version>
         
-        <!-- TODO update to 4.0.1 -->
+        <!-- TODO update to 5.0.0 -->
         <jakarta.ejb.version>4.0.0</jakarta.ejb.version>
         
-        <jakarta.jsp.version>3.1.0</jakarta.jsp.version>
+        <!-- TODO update to 4.0.0 -->
+        <jakarta.jsp.version>3.0.0</jakarta.jsp.version>
         
-        <jakarta.annotation.version>2.1.0</jakarta.annotation.version>
+        <jakarta.annotation.version>2.0.0</jakarta.annotation.version>
         
-        <jakarta.interceptor.version>2.0.1</jakarta.interceptor.version>
-        <jakarta.cdi.version>4.0.0</jakarta.cdi.version>
+        <jakarta.interceptor.version>2.0.0</jakarta.interceptor.version>
+        <jakarta.cdi.version>4.0.0.Alpha2</jakarta.cdi.version>
         
     </properties>
 
@@ -103,7 +89,6 @@
         <module>api</module>
         <module>tck</module>
     </modules>
-    
     <dependencies>
         <dependency>
             <groupId>jakarta.servlet</groupId>
