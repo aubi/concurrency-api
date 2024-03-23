@@ -76,8 +76,8 @@ public final class Wait {
      * and will be polled ever specified interval
      *
      * @param managedTaskListener - the listener to be polled
-     * @param maxWaitTimeMillis   - timeout
-     * @param pollIntervalMillis  - poll interval
+     * @param timeout - timeout
+     * @param pollInterval - poll interval
      */
     public static void waitForListenerComplete(final ManagedTaskListenerImpl managedTaskListener, final Duration timeout,
             final Duration pollInterval) {
@@ -94,6 +94,7 @@ public final class Wait {
      * {@link TestConstants#pollInterval}
      *
      * @param future - the future to wait for
+     * @param expected Expected exception to be thrown
      */
     public static <T extends Throwable> void waitTillFutureThrowsException(final Future<?> future,
             final Class<T> expected) {
