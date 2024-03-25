@@ -22,7 +22,6 @@ import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.EnterpriseArchive;
-import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 
 import ee.jakarta.tck.concurrent.common.context.providers.IntContextProvider;
@@ -50,10 +49,8 @@ public class AnnotationFullTests extends TestClient {
     public static EnterpriseArchive createDeployment() {
 
         WebArchive war = ShrinkWrap.create(WebArchive.class, "AnnotationTests_web.war")
-                .addClasses(AnnotationServlet.class);
-
-        JavaArchive jar = ShrinkWrap.create(JavaArchive.class, "AnnotationTests_ejb.jar")
-                .addClasses(AnnotationTestBean.class, AnnotationTestBeanInterface.class)
+                .addClasses(AnnotationServlet.class,
+                        AnnotationTestBean.class, AnnotationTestBeanInterface.class)
                 .addPackages(false,
                         PACKAGE.CONTEXT.getPackageName(),
                         PACKAGE.CONTEXT_PROVIDERS.getPackageName(),
@@ -62,9 +59,7 @@ public class AnnotationFullTests extends TestClient {
                         StringContextProvider.class.getName());
 
         EnterpriseArchive ear = ShrinkWrap.create(EnterpriseArchive.class, "AnnotationTests.ear")
-                .addAsManifestResource(AnnotationFullTests.class.getPackage(), "application.xml",
-                        "application.xml")
-                .addAsModules(war, jar);
+                .addAsModules(war);
 
         return ear;
     }

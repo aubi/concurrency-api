@@ -22,7 +22,6 @@ import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.EnterpriseArchive;
-import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 
 import ee.jakarta.tck.concurrent.common.context.providers.IntContextProvider;
@@ -30,7 +29,6 @@ import ee.jakarta.tck.concurrent.common.context.providers.StringContextProvider;
 import ee.jakarta.tck.concurrent.framework.TestClient;
 import ee.jakarta.tck.concurrent.framework.junit.anno.Assertion;
 import ee.jakarta.tck.concurrent.framework.junit.anno.Challenge;
-import ee.jakarta.tck.concurrent.framework.junit.anno.Common.PACKAGE;
 import ee.jakarta.tck.concurrent.framework.junit.anno.Full;
 import ee.jakarta.tck.concurrent.framework.junit.anno.TestName;
 import jakarta.enterprise.concurrent.spi.ThreadContextProvider;
@@ -50,9 +48,7 @@ public class DeploymentDescriptorFullTests extends TestClient {
     public static EnterpriseArchive createDeployment() {
 
         WebArchive war = ShrinkWrap.create(WebArchive.class, "DeploymentDescriptorTests_web.war")
-                .addClasses(DeploymentDescriptorServlet.class, ManagedThreadFactoryProducer.class);
-
-        JavaArchive jar = ShrinkWrap.create(JavaArchive.class, "DeploymentDescriptorTests_ejb.jar")
+                .addClasses(DeploymentDescriptorServlet.class, ManagedThreadFactoryProducer.class)
                 .addClasses(DeploymentDescriptorTestBean.class, DeploymentDescriptorTestBeanInterface.class)
                 .addPackages(false,
                         PACKAGE.CONTEXT.getPackageName(),
@@ -62,9 +58,7 @@ public class DeploymentDescriptorFullTests extends TestClient {
                         StringContextProvider.class.getName());
 
         EnterpriseArchive ear = ShrinkWrap.create(EnterpriseArchive.class, "DeploymentDescriptorTests.ear")
-                .addAsManifestResource(DeploymentDescriptorFullTests.class.getPackage(), "application.xml",
-                        "application.xml")
-                .addAsModules(war, jar);
+                .addAsModules(war);
 
         return ear;
     }
